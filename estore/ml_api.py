@@ -1,34 +1,22 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Jun 11 18:50:57 2022
-
-@author: siddhardhan
-"""
-
 from fastapi import FastAPI
 from pydantic import BaseModel
 import pickle
 import json
 
-
 app = FastAPI()
 
 class model_input(BaseModel):
     
-    pregnancies : int
-    Glucose : int
-    BloodPressure : int
-    SkinThickness : int
-    Insulin : int
-    BMI : float
-    DiabetesPedigreeFunction : float
-    Age : int       
+    product_id : int
+    user_id : int
+    rating : int
+    time_stamp : int
         
 # loading the saved model
-diabetes_model = pickle.load(open('diabetes_model.sav', 'rb'))
+fed_model = pickle.load(open('fed.sav', 'rb'))
 
-@app.post('/diabetes_prediction')
-def diabetes_predd(input_parameters : model_input):
+@app.post('/fed_prediction')
+def fed_predd(input_parameters : model_input):
     
     input_data = input_parameters.json()
     input_dictionary = json.loads(input_data)
@@ -45,14 +33,12 @@ def diabetes_predd(input_parameters : model_input):
     
     input_list = [preg, glu, bp, skin, insulin, bmi, dpf, age]
     
-    prediction = diabetes_model.predict([input_list])
+    prediction = fed_model.predict([input_list])
     
-    if (prediction[0] == 0):
-        return 'The person is not diabetic'
+    if (prediction[0]):
+        s = "The predicted product id : "
+        s = s + prediction[0]
+        return s 
     else:
-        return 'The person is diabetic'
+        return 'Error in prediction'
     
-    
-
-
-
