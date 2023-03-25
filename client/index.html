@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Input Form</title>
+    <link rel = "stylesheet" href = "css/style.css">
+    <script src="js/script.js"></script>
+  </head>
+  <body>
+    
+    <h1>Input Form</h1>
+    <form>
+      <label for="key">Key:</label>
+      <input type="text" id="key" name="key"><br><br>
+      <label for="value">Value:</label>
+      <input type="text" id="value" name="value"><br><br>
+      <button type="button" onclick="addKeyValuePair()">Add</button>
+      <button type="button" onclick="clearKeyValuePairs()">Add More Features</button>
+    </form>
+    <br>
+    <h2>Key-Value Pairs:</h2>
+    <ul id="keyValueList"></ul>
+    <button type="button" onclick="submitKeyValuePairs()">Submit</button>
+  </body>
+</html>
