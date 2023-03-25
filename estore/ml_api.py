@@ -7,13 +7,12 @@ app = FastAPI()
 
 class model_input(BaseModel):
     
-    product_id : int
-    user_id : int
-    rating : int
-    time_stamp : int
+    uid : str
+    iid : str
+    r_ui : int
         
 # loading the saved model
-fed_model = pickle.load(open('fed.sav', 'rb'))
+fed_model = pickle.load(open('/Users/dhruvjyotigarodia/Documents/GitHub/bd_project/RisingPhoenix/estore/fed_model.sav', 'rb'))
 
 @app.post('/fed_prediction')
 def fed_predd(input_parameters : model_input):
@@ -21,20 +20,18 @@ def fed_predd(input_parameters : model_input):
     input_data = input_parameters.json()
     input_dictionary = json.loads(input_data)
     
-    preg = input_dictionary['pregnancies']
-    glu = input_dictionary['Glucose']
-    bp = input_dictionary['BloodPressure']
-    skin = input_dictionary['SkinThickness']
-    insulin = input_dictionary['Insulin']
-    bmi = input_dictionary['BMI']
-    dpf = input_dictionary['DiabetesPedigreeFunction']
-    age = input_dictionary['Age']
+    uid= input_dictionary['uid']
+    iid = input_dictionary['iid']
+    r_ui = input_dictionary['r_ui']
     
     
-    input_list = [preg, glu, bp, skin, insulin, bmi, dpf, age]
+    input_list = [iid,uid,r_ui]
     
-    prediction = fed_model.predict([input_list])
+    # prediction = fed_model.predict([input_list])
     
+    prediction = fed_model.predict(uid = input_list[0],iid = input_list[1],r_ui=input_list[-1])
+    print(prediction)
+
     if (prediction[0]):
         s = "The predicted product id : "
         s = s + prediction[0]
